@@ -6,6 +6,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --solar-system-size: 1100px;
 }
 
 * {
@@ -22,8 +23,12 @@ body {
   overflow: hidden;
 }
 
+.container {
+  display: grid;
+  grid-template-columns: var(--solar-system-size) 1fr;
+}
+
 section#sistema-solar {
-  --solar-system-size: 1100px;
   --distance-scale-width: 1000px;
   --farther-orbit-distance: 319000000;
   --sun-size: 250px;
@@ -32,9 +37,8 @@ section#sistema-solar {
   --base-distance: calc(var(--sun-size)/2 + var(--base-size)*4.5);
   --base-separation: calc(var(--sun-size)/3);
   height: 100vh;
+  width: 100%;
   position: relative;
-  perspective: 1000px;
-  perspective-origin: 50% 50%;
   /* transform-style: preserve-3d;
   transform: translate3d(0, 0, 0); */
   background-color: var(--bg-color);
@@ -62,100 +66,137 @@ sol {
   z-index: 2;
 }
 
+.planeta::before {
+  /* content: ""; */
+  position: absolute;
+  border: solid 1px hotpink;
+  width: calc(var(--distance)*2);
+  height: calc(var(--distance)*2);
+  left: calc(var(--distance)*-2 + var(--size)/2);
+  top: calc(var(--distance)*-1);
+  border-radius: 50%;
+}
+
 #mercurio {
   --multiplier: 1;
-  width: calc(var(--base-size) * var(--multiplier));
-  height: calc(var(--base-size) * var(--multiplier));
-  top: calc(50% - var(--base-size)*var(--multiplier)/2);
-  left: var(--base-distance);
+  --distance: var(--base-distance);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #b3b3b3;
 }
 
 #venus {
   --multiplier: 1.5;
-  width: calc(var(--base-size) * var(--multiplier));
-  height: calc(var(--base-size) * var(--multiplier));
-  top: calc(50% - var(--base-size) * var(--multiplier)/2);
-  left: calc(var(--base-distance) + var(--base-separation));
+  --distance: calc(var(--base-distance) + var(--base-separation));
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #ff9933;
 }
 
 #tierra {
   --multiplier: 1.75;
-  width: calc(var(--base-size) * var(--multiplier));
-  height: calc(var(--base-size) * var(--multiplier));
-  top: calc(50% - var(--base-size) * var(--multiplier)/2);
-  left: calc(var(--base-distance) + var(--base-separation) * 2);
+  --distance: calc(var(--base-distance) + var(--base-separation) * 2);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #0099ff;
+}
+
+#tierra::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--size)/3);
+  height: calc(var(--size)/3);
+  top: calc(var(--size)*-0.7);
+  left: calc(var(--size));
+  border-radius: 50%;
+  background-color: #999;
 }
 
 #marte {
   --multiplier: 1.25;
-  width: calc(var(--base-size) * var(--multiplier));
-  height: calc(var(--base-size) * var(--multiplier));
-  top: calc(50% - var(--base-size) * var(--multiplier)/2);
-  left: calc(var(--base-distance) + var(--base-separation) * 3);
+  --distance: calc(var(--base-distance) + var(--base-separation) * 3);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #ff0000;
 }
 
 #jupiter {
-  --real-distance: 778330000;
-  --distance-to-scale: calc(var(--real-distance)*var(--distance-scale-width)/var(--farther-orbit-distance));
-  --size-to-scale: 41.11px;
-  width: var(--size-to-scale);
-  height: var(--size-to-scale);
+  --multiplier: 4;
+  --distance: calc(var(--base-distance) + var(--base-separation) * 4.5);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #855f14;
-  top: calc(50% - var(--size-to-scale)/2);
-  left: calc(var(--sun-size)/2 + var(--distance-to-scale));
-  display: none;
 }
 
 #saturno {
-  --real-distance: 1429400000;
-  --distance-to-scale: calc(var(--real-distance)*var(--distance-scale-width)/var(--farther-orbit-distance));
-  --size-to-scale: 34.65px;
-  width: var(--size-to-scale);
-  height: var(--size-to-scale);
+  --multiplier: 3;
+  --distance: calc(var(--base-distance) + var(--base-separation) * 6);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #ffcc66;
-  top: calc(50% - var(--size-to-scale)/2);
-  left: calc(var(--sun-size)/2 + var(--distance-to-scale));
-  display: none;
+}
+
+#saturno::after {
+  content: "";
+  position:absolute;
+  border: solid 1px pink;
+  --w: calc(var(--size)*2);
+  --h: 18px;
+  width: var(--w);
+  height: var(--h);
+  top: calc(((var(--h) - var(--size))*-0.5));
+  left: calc((var(--w) - var(--size))*-0.5);
+  border-radius: 50%;
 }
 
 #urano {
-  --real-distance: 2870990000;
-  --distance-to-scale: calc(var(--real-distance)*var(--distance-scale-width)/var(--farther-orbit-distance));
-  --size-to-scale: 14.7px;
-  width: var(--size-to-scale);
-  height: var(--size-to-scale);
+  --multiplier: 3;
+  --distance: calc(var(--base-distance) + var(--base-separation) * 7.3);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #66ccff;
-  top: calc(50% - var(--size-to-scale)/2);
-  left: calc(var(--sun-size)/2 + var(--distance-to-scale));
-  /* display: none; */
 }
 
 #neptuno {
-  --real-distance: 4495100000;
-  --distance-to-scale: calc(var(--real-distance)*var(--distance-scale-width)/var(--farther-orbit-distance));
-  --size-to-scale: 14.24px;
-  width: var(--size-to-scale);
-  height: var(--size-to-scale);
+  --multiplier: 3;
+  --distance: calc(var(--base-distance) + var(--base-separation) * 8.5);
+  --size: calc(var(--base-size) * var(--multiplier));
+  width: var(--size);
+  height: var(--size);
+  top: calc(50% - var(--size)/2);
+  left: var(--distance);
   background-color: #0000ff;
-  top: calc(50% - var(--size-to-scale)/2);
-  left: calc(var(--sun-size)/2 + var(--distance-to-scale));
-  /* display: none; */
 }
 
 #asteroides {
-  --real-distance: 319000000;
-  --distance-to-scale: calc(var(--real-distance)*var(--distance-scale-width)/var(--farther-orbit-distance) + var(--sun-size)/2);
-  width: calc(var(--distance-to-scale)*2);
-  height: calc(var(--distance-to-scale)*2);
-  border-radius: 50%;
-  background: transparent;
+  --distance: calc(var(--base-distance) + var(--base-separation) * 3.5);
+  width: calc(var(--distance)*2);
+  height: calc(var(--distance)*2);
   position: absolute;
-  top: calc(50% - var(--distance-to-scale));
-  left: calc(var(--distance-to-scale) * -1);
+  left: calc(var(--distance)*-1);
+  top: calc(var(--distance)*-0.30);
+  border-radius: 50%;
   z-index: 1;
 }
 
